@@ -20,9 +20,15 @@
     chdir: /home/debian/scripts/rootfs/linux-{{ version }}
 
 - name: make deb-pkg
-  command: make -j{{ ansible_processor_vcpus }} deb-pkg
+  command: make -j{{ ansible_processor_vcpus }} deb-pkg bzImage
   args:
     chdir: /home/debian/scripts/rootfs/linux-{{ version }}
+
+#TODO: this is for netboot/kernels directory
+- name: copy bzImage to known location
+  copy:
+    src: /home/debian/scripts/rootfs/linux-{{ version }}/arch/x86/boot/bzImage
+    dest: /home/debian/scripts/rootfs/vmlinuz-{{ version }}
 
 - name: remove everything except artifacts
   file:
