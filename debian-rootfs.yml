@@ -1,0 +1,96 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - debootstrap
+    - linux-kernel
+
+- hosts: /home/debian/scripts/rootfs
+  connection: chroot
+  tasks:
+
+    - name: replace fstab
+      copy:
+        src: roles/config/files/fstab
+        dest: /etc/fstab
+
+    - name: change password
+      command: echo debian:debian|chpasswd -R rootfs
+
+    - name: install packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - apt-utils
+        - autoconf
+        - bc
+        - binutils
+        - bison
+        - build-essential
+        - ca-certificates
+        - cmake
+        - dialog
+        - dmidecode
+        - doxygen
+        - flex
+        - g++
+        - gcc-multilib
+        - gdb
+        - gettext
+        - git
+        - iasl
+        - liblzma-dev
+        - locales
+        - m4
+        - make
+        - makedev
+        - ncurses-dev
+        - nfs-common
+        - ntpdate
+        - python
+        - python-dev
+        - ssh
+        - sudo
+        - tmux
+        - vim
+        - wget
+        - wpasupplicant
+        - zlib1g-dev
+
+    - name: install Linux "{{ version }}"
+      apt:
+        deb: "{{ item }}"
+      with_items:
+        - linux-headers-{{ version }}_{{ version }}-1_amd64.deb
+        - linux-image-{{ version }}_{{ version }}-1_amd64.deb
+        - linux-image-{{ version }}-dbg_{{ version }}-1_amd64.deb
+        - linux-libc-dev_{{ version }}-1_amd64.deb
+
+    - name: remove deb files after Linux installation
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - linux-headers-{{ version }}_{{ version }}-1_amd64.deb
+        - linux-image-{{ version }}_{{ version }}-1_amd64.deb
+        - linux-image-{{ version }}-dbg_{{ version }}-1_amd64.deb
+        - linux-libc-dev_{{ version }}-1_amd64.deb
+
+    - name: clean apt cache
+      command: apt clean
+
+- hosts: localhost
+  connection: local
+  tasks:
+
+#    - name: change ownership of rootfs
+#      file:
+#        dest: rootfs
+#        owner: debian
+#        group: debian
+#        recurse: yes
+
+    - name: compress rootfs
+      command: tar czvf rootfs-{{ ansible_date_time.date }}.tar.gz rootfs

@@ -1,0 +1,36 @@
+- name: get Linux "{{ version }}"
+  get_url:
+    url: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{{ version }}.tar.gz
+    # TODO: nice would be remote checksum that can verify if package is fine
+    dest: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
+
+- name: decompress Linux "{{ version }}"
+  unarchive:
+    src: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
+    dest: /home/debian/scripts/rootfs
+
+- name: get most config "{{ config }}"
+  get_url:
+    url: "{{ config }}"
+    dest: /home/debian/scripts/rootfs/linux-{{ version }}/.config
+
+- name: make oldconfig
+  command: make oldconfig
+  args:
+    chdir: /home/debian/scripts/rootfs/linux-{{ version }}
+
+- name: make deb-pkg
+  command: make -j{{ ansible_processor_vcpus }} deb-pkg
+  args:
+    chdir: /home/debian/scripts/rootfs/linux-{{ version }}
+
+- name: remove everything except artifacts
+  file:
+    path: /home/debian/scripts/rootfs/{{ item }}
+    state: absent
+  with_items:
+    - linux-{{ version }}
+    - linux-{{ version }}.tar.gz
+    - linux-{{ version }}_{{ version }}-1_amd64.changes
+    - linux-{{ version }}_{{ version }}-1.debian.tar.gz
+    - linux-{{ version }}_{{ version }}.orig.tar.gz
