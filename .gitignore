@@ -2,3 +2,4 @@ rootfs
 *.retry
 config-*
 vmlinuz-*
+*.tar.gz
