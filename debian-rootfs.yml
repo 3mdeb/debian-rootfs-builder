@@ -28,9 +28,20 @@
 
 - hosts: localhost
   connection: local
+  roles:
+    - common
   tasks:
-
+  # for some reason archive return error, so we use tar directly An exception
+  # occurred during task execution. To see the full traceback, use -vvv. The
+  # error was: OSError: [Errno 2] No such file or directory:
+  # 'rootfs/sbin/runlevel'
+  #
+  # fatal: [localhost]: FAILED! => {"changed": false, "msg": "Error when
+  # writing tar.gz archive at rootfs-v1.0.0.tar.gz: [Errno 2] No such file or
+  # directory: 'rootfs/sbin/runlevel'"}
     - name: compress rootfs
-      command: tar czvf rootfs-{{ ansible_date_time.date }}.tar.gz rootfs
+      command: tar czvf rootfs-{{ rootfs_release }}.tar.gz rootfs
+      command_warnings: False
 
 #TODO: copy results to pxe-server
+#TODO: upload rootfs to nextcloud

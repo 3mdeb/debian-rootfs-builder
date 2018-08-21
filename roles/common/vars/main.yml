@@ -1,3 +1,4 @@
 linux_4_9: "4.9.122"
 linux_4_14: "4.14.65"
 apu_config: "https://raw.githubusercontent.com/pcengines/apu2-documentation/master/configs/config-4.14.59"
+rootfs_release: "v1.0.0"
