@@ -3,11 +3,18 @@
     url: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{{ version }}.tar.gz
     # TODO: nice would be remote checksum that can verify if package is fine
     dest: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
+  retries: 3
+  delay: 3
 
 - name: decompress Linux "{{ version }}"
   unarchive:
     src: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
     dest: /home/debian/scripts/rootfs
+
+- name: make mrproper
+  command: make mrproper
+  args:
+    chdir: /home/debian/scripts/rootfs/linux-{{ version }}
 
 - name: get most config "{{ config }}"
   get_url:
@@ -23,7 +30,6 @@
   command: make -j{{ ansible_processor_vcpus }} deb-pkg bzImage
   args:
     chdir: /home/debian/scripts/rootfs/linux-{{ version }}
-  ignore_errors: yes
 
 #TODO: this is for netboot/kernels directory
 - name: copy bzImage to known location
