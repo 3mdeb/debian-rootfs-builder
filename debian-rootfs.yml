@@ -14,7 +14,7 @@
     - packages
 
 #TODO: make variables visible in all roles
-- hosts: /home/debian/scripts/rootfs
+- hosts: chroots
   connection: chroot
   roles:
     - common
