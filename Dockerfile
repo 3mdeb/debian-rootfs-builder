@@ -9,9 +9,11 @@ RUN \
 		ansible \
 		bc \
 		build-essential \
+		ccache \
 		debootstrap \
 		kmod \
 		libelf-dev \
 		libssl-dev \
+		lsb-release \
 		python \
 	&& apt-get clean
