@@ -2,6 +2,7 @@
 - hosts: localhost
   connection: local
   roles:
+    - common
     - debootstrap
     - role: linux-kernel
       version: "{{ linux_4_9 }}"
@@ -11,15 +12,17 @@
       config: "{{ apu_config }}"
     - config
     - packages
+
+#TODO: make variables visible in all roles
+- hosts: /home/debian/scripts/rootfs
+  connection: chroot
+  roles:
+    - common
     - role: linux-install
       version: "{{ linux_4_9 }}"
     - role: linux-install
       version: "{{ linux_4_14 }}"
-
-- hosts: /home/debian/scripts/rootfs
-  connection: chroot
   tasks:
-
     - name: clean apt cache
       command: apt clean
 
