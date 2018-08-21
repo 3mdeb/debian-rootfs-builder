@@ -1,0 +1,8 @@
+- name: replace fstab
+  copy:
+    src: roles/config/files/fstab
+    dest: /etc/fstab
+
+- name: change password
+  command: echo debian:debian|chpasswd -R rootfs
+

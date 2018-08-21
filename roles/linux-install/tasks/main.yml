@@ -1,0 +1,20 @@
+- name: install Linux "{{ version }}"
+  apt:
+    deb: "{{ item }}"
+  with_items:
+    - linux-headers-{{ version }}_{{ version }}-1_amd64.deb
+    - linux-image-{{ version }}_{{ version }}-1_amd64.deb
+    - linux-image-{{ version }}-dbg_{{ version }}-1_amd64.deb
+    - linux-libc-dev_{{ version }}-1_amd64.deb
+
+- name: Ansible delete file glob
+  find:
+    paths: /
+    patterns: "linux-*-1_amd64.deb"
+    register: files_to_delete
+
+- name: Ansible remove file glob
+  file:
+    path: "{{ item.path }}"
+    state: absent
+    with_items: "{{ files_to_delete.files }}"
