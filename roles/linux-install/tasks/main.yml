@@ -7,14 +7,15 @@
     - linux-image-{{ version }}-dbg_{{ version }}-1_amd64.deb
     - linux-libc-dev_{{ version }}-1_amd64.deb
 
-- name: Ansible delete file glob
-  find:
-    paths: /
-    patterns: "linux-*-1_amd64.deb"
-    register: files_to_delete
-
-- name: Ansible remove file glob
-  file:
-    path: "{{ item.path }}"
-    state: absent
-    with_items: "{{ files_to_delete.files }}"
+#TODO: prefrom clean up
+#- name: Ansible delete file glob
+#  find:
+#    paths: /
+#    patterns: "linux-*-1_amd64.deb"
+#    register: files_to_delete
+#
+#- name: Ansible remove file glob
+#  file:
+#    path: "{{ item.path }}"
+#    state: absent
+#    with_items: "{{ files_to_delete.files }}"

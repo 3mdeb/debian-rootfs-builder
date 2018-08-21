@@ -29,3 +29,5 @@
 
     - name: compress rootfs
       command: tar czvf rootfs-{{ ansible_date_time.date }}.tar.gz rootfs
+
+#TODO: copy results to pxe-server
