@@ -1,2 +1,4 @@
 rootfs
 *.retry
+config-*
+vmlinuz-*
