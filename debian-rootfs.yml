@@ -10,14 +10,14 @@
     - role: linux-kernel
       version: "{{ linux_4_14 }}"
       config: "{{ apu_config }}"
-    - config
-    - packages
 
 #TODO: make variables visible in all roles
-- hosts: chroots
+- hosts: /home/debian/scripts/rootfs
   connection: chroot
   roles:
     - common
+    - config
+    - packages
     - role: linux-install
       version: "{{ linux_4_9 }}"
     - role: linux-install
