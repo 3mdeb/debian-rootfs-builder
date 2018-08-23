@@ -3,11 +3,13 @@
     src: files/fstab
     dest: /etc/fstab
 
-- name: change user password
-  command: echo debian:debian|chpasswd
+- name: replace issue
+  copy:
+    src: files/issue
+    dest: /etc/issue
 
 - name: change root password
-  command: echo root:debian|chpasswd
+  shell: echo root:debian|chpasswd
 
 - name: configure hostname
   hostname:
