@@ -10,6 +10,7 @@
     - role: linux-kernel
       version: "{{ linux_4_14 }}"
       config: "{{ apu_config }}"
+    - chroot_mount
 
 #TODO: make variables visible in all roles
 - hosts: /home/debian/scripts/rootfs
@@ -29,6 +30,7 @@
 - hosts: localhost
   connection: local
   roles:
+    - chroot_umount
     - common
   tasks:
   # for some reason archive return error, so we use tar directly An exception
