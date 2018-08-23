@@ -1,8 +1,5 @@
 - name: debootstrap first stage
-  command: debootstrap --foreign --arch amd64 stable rootfs http://httpredir.debian.org/debian
+  command: debootstrap --foreign --include=python --arch amd64 stable rootfs http://httpredir.debian.org/debian
 
 - name: debootstrap second stage
   command: chroot rootfs /debootstrap/debootstrap --second-stage
-
-- name: install packages
-  command: chroot rootfs apt-get -qy install python
