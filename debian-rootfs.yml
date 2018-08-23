@@ -41,7 +41,6 @@
   # directory: 'rootfs/sbin/runlevel'"}
     - name: compress rootfs
       command: tar czvf rootfs-{{ rootfs_release }}.tar.gz rootfs
-      command_warnings: False
 
 #TODO: copy results to pxe-server
 #TODO: upload rootfs to nextcloud
