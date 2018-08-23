@@ -3,6 +3,8 @@
     url: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{{ version }}.tar.gz
     # TODO: nice would be remote checksum that can verify if package is fine
     dest: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
+  register: result
+  until: result is succeeded
   retries: 3
   delay: 3
 
