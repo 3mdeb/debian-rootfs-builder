@@ -12,16 +12,14 @@ usage
 Building rootfs with given kernel version, config and set of packages.
 
 ```
-docker run --privileged --rm -v $PWD/.ccache:/home/debian/.ccache \
--v $PWD:/home/debian/scripts -t -i 3mdeb/debian-rootfs-builder \
-ansible-playbook -vvv /home/debian/scripts/debian-rootfs.yml
-```
 
-```
-docker run --privileged --rm -e
-ANSIBLE_CONFIG=/home/debian/scripts/ansible.cfg -v $PWD:/home/debian/scripts -t
--i 3mdeb/debian-rootfs-builder ansible-playbook -i
-"/home/debian/scripts/rootfs," /home/debian/scripts/debian-rootfs.yml
+docker run --privileged --rm -e http_proxy=http://192.168.3.110:3142/ \
+-e ANSIBLE_CONFIG=/home/debian/scripts/ansible.cfg \
+-v $HOME/.ccache:/home/debian/.ccache -v $PWD:/home/debian/scripts \
+-w /home/debian/scripts -e CCACHE_DIR=/home/debian/.ccache -t \
+-i 3mdeb/debian-rootfs-builder ansible-playbook -vvv \
+-i "/home/debian/scripts/rootfs," /home/debian/scripts/debian-rootfs.yml
+
 ```
 
 Performance optimization
