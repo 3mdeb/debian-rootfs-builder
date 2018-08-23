@@ -18,6 +18,7 @@ RUN \
 		libssl-dev \
 		lsb-release \
 		python \
+		unzip \
 	&& apt-get clean
 
 ENV PATH="/usr/lib/ccache:${PATH}"
