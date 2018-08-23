@@ -39,3 +39,7 @@
     - wget
     - wpasupplicant
     - zlib1g-dev
+    - xen-system-amd64
+    - xen-tools
+    - xen-linux-system-amd64
+
