@@ -19,6 +19,7 @@ RUN \
 		lsb-release \
 		python \
 		unzip \
+		tar \
 	&& apt-get clean
 
 ENV PATH="/usr/lib/ccache:${PATH}"

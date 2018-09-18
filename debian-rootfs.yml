@@ -50,9 +50,9 @@
         dest: /home/debian/scripts/xen-4.8-amd64.gz
 
     - name: unarchive Xen kernel
-      unarchive:
-        src: /home/debian/scripts/xen-4.8-amd64.gz
-        dest: /home/debian/scripts
+      command: gunzip /home/debian/scripts/xen-4.8-amd64.gz
+      args:
+        chdir: /home/debian/scripts
 
 #TODO: copy results to pxe-server
 #TODO: upload rootfs to nextcloud
