@@ -2,7 +2,9 @@ FROM debian:stretch-backports
 
 MAINTAINER Piotr Król <piotr.krol@3mdeb.com>
 
-ENV http_proxy ${http_proxy}
+ARG HTTP_PROXY
+
+ENV http_proxy ${HTTP_PROXY}
 
 RUN \
 	useradd -p locked -m debian && \
@@ -25,3 +27,8 @@ RUN \
 ENV PATH="/usr/lib/ccache:${PATH}"
 RUN mkdir /home/debian/.ccache && \
 	chown debian:debian /home/debian/.ccache
+WORKDIR /home/debian/scripts
+RUN sed -i "s|#http_proxy = http://proxy.yoyodyne.com:18023/|http_proxy=${HTTP_PROXY}|g" /etc/wgetrc
+
+# Temporary fix for tar problems in 1.0.100 version of debootstrap
+COPY files/functions /usr/share/debootstrap/functions
