@@ -9,17 +9,25 @@ debootstrap and chroot operations.
 usage
 -----
 
+Run apt-cacher:
+
+```
+docker-comopser up
+```
+
 Building rootfs with given kernel version, config and set of packages.
 
 ```
-
-docker run --privileged --rm -e http_proxy=http://192.168.3.110:3142/ \
--e ANSIBLE_CONFIG=/home/debian/scripts/ansible.cfg \
--v $HOME/.ccache:/home/debian/.ccache -v $PWD:/home/debian/scripts \
--w /home/debian/scripts -e CCACHE_DIR=/home/debian/.ccache -t \
--i 3mdeb/debian-rootfs-builder ansible-playbook -vvv \
+docker run --privileged --rm -v $HOME/.ccache:/home/debian/.ccache \
+-v $PWD:/home/debian/scripts -t -i 3mdeb/debian-rootfs-builder ansible-playbook -vvv \
 -i "/home/debian/scripts/rootfs," /home/debian/scripts/debian-rootfs.yml
 
+```
+
+# Building debian-rootfs-builder
+
+```
+docker build --build-arg HTTP_PROXY=http://<apt_cacher_ip>:3142 .
 ```
 
 Performance optimization
