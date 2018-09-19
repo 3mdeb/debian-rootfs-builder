@@ -25,6 +25,8 @@ RUN \
 	&& apt-get clean
 
 ENV PATH="/usr/lib/ccache:${PATH}"
+ENV ANSIBLE_CONFIG="/home/debian/scripts/ansible.cfg"
+ENV CCACHE_DIR="/home/debian/.ccache"
 RUN mkdir /home/debian/.ccache && \
 	chown debian:debian /home/debian/.ccache
 WORKDIR /home/debian/scripts
