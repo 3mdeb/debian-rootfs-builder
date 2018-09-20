@@ -31,6 +31,4 @@ RUN mkdir /home/debian/.ccache && \
 	chown debian:debian /home/debian/.ccache
 WORKDIR /home/debian/scripts
 RUN sed -i "s|#http_proxy = http://proxy.yoyodyne.com:18023/|http_proxy=${HTTP_PROXY}|g" /etc/wgetrc
-
-# Temporary fix for tar problems in 1.0.100 version of debootstrap
-COPY files/functions /usr/share/debootstrap/functions
+RUN echo "Acquire::http::Proxy \"${HTTP_PROXY}\";" > /etc/apt/apt.conf.d/99HttpProxy
