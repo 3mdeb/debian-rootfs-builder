@@ -1,20 +1,20 @@
 - name: mount /proc
   mount:
-    path: /home/debian/scripts/rootfs/proc
+    path: /tmp/rootfs/proc
     src: /proc
     opts: bind
     fstype: proc
     state: present
 - name: mount /dev
   mount:
-    path: /home/debian/scripts/rootfs/dev
+    path: /tmp/rootfs/dev
     src: /dev
     opts: bind
     fstype: devtmpfs
     state: present
 - name: mount /dev/pts
   mount:
-    path: /home/debian/scripts/rootfs/dev/pts
+    path: /tmp/rootfs/dev/pts
     src: /dev/pts
     opts: bind
     fstype: devpts

@@ -1,18 +1,18 @@
 - name: unmount /dev/pts
   mount:
-    path: /home/debian/scripts/rootfs/dev/pts
+    path: /tmp/rootfs/dev/pts
     src: /dev/pts
     opts: bind
     state: absent
 - name: unmount /dev
   mount:
-    path: /home/debian/scripts/rootfs/dev/pts
+    path: /tmp/rootfs/dev/pts
     src: /dev/pts
     opts: bind
     state: absent
 - name: unmount /proc
   mount:
-    path: /home/debian/scripts/rootfs/dev/pts
+    path: /tmp/rootfs/dev/pts
     src: /dev/pts
     opts: bind
     state: absent

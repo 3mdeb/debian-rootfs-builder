@@ -2,7 +2,7 @@
   get_url:
     url: https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-{{ version }}.tar.gz
     # TODO: nice would be remote checksum that can verify if package is fine
-    dest: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
+    dest: /tmp/rootfs/linux-{{ version }}.tar.gz
   register: result
   until: result is succeeded
   retries: 3
@@ -10,45 +10,44 @@
 
 - name: decompress Linux "{{ version }}"
   unarchive:
-    src: /home/debian/scripts/rootfs/linux-{{ version }}.tar.gz
-    dest: /home/debian/scripts/rootfs
+    src: /tmp/rootfs/linux-{{ version }}.tar.gz
+    dest: /tmp/rootfs
 
 - name: make mrproper
   command: make mrproper
   args:
-    chdir: /home/debian/scripts/rootfs/linux-{{ version }}
+    chdir: /tmp/rootfs/linux-{{ version }}
 
 - name: get apu_config
   get_url:
     url: "{{ config }}"
-    dest: /home/debian/scripts/rootfs/linux-{{ version }}/.config
+    dest: /tmp/rootfs/linux-{{ version }}/.config
 
 - name: make olddefconfig
   command: make olddefconfig
   args:
-    chdir: /home/debian/scripts/rootfs/linux-{{ version }}
+    chdir: /tmp/rootfs/linux-{{ version }}
 
 - name: make deb-pkg
   command: make -j{{ ansible_processor_vcpus }} deb-pkg bzImage
   args:
-    chdir: /home/debian/scripts/rootfs/linux-{{ version }}
-  ignore_errors: yes
+    chdir: /tmp/rootfs/linux-{{ version }}
 
 #TODO: this is for netboot/kernels directory
 - name: copy bzImage to known location
   copy:
-    src: /home/debian/scripts/rootfs/linux-{{ version }}/arch/x86/boot/bzImage
+    src: /tmp/rootfs/linux-{{ version }}/arch/x86/boot/bzImage
     dest: /home/debian/scripts/vmlinuz-{{ version }}
 
 # TODO: save config for further commit to apu2-documentation
 - name: copy .config to known location
   copy:
-    src: /home/debian/scripts/rootfs/linux-{{ version }}/.config
+    src: /tmp/rootfs/linux-{{ version }}/.config
     dest: /home/debian/scripts/config-{{ version }}
 
 - name: remove everything except artifacts
   file:
-    path: /home/debian/scripts/rootfs/{{ item }}
+    path: /tmp/rootfs/{{ item }}
     state: absent
   with_items:
     - linux-{{ version }}

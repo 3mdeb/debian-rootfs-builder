@@ -36,11 +36,13 @@
   # writing tar.gz archive at rootfs-v1.0.0.tar.gz: [Errno 2] No such file or
   # directory: 'rootfs/sbin/runlevel'"}
     - name: compress rootfs
-      command: tar czvf rootfs-{{ rootfs_release }}.tar.gz rootfs
+      command: tar czvf /home/debian/scripts/rootfs-{{ rootfs_release }}.tar.gz rootfs
+      args:
+        chdir: /tmp
 
     - name: preserver Xen kernel
       copy:
-        src: /home/debian/scripts/rootfs/boot/xen-4.8-amd64.gz
+        src: /tmp/rootfs/boot/xen-4.8-amd64.gz
         dest: /home/debian/scripts/xen-4.8-amd64.gz
 
     - name: unarchive Xen kernel
