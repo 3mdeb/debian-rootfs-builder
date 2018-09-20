@@ -1,20 +1,20 @@
 - name: mount /proc
   mount:
-    path: /tmp/rootfs/proc
+    path: "{{ rootfs_dir }}/proc"
     src: /proc
     opts: bind
     fstype: proc
     state: present
 - name: mount /dev
   mount:
-    path: /tmp/rootfs/dev
+    path: "{{ rootfs_dir }}/dev"
     src: /dev
     opts: bind
     fstype: devtmpfs
     state: present
 - name: mount /dev/pts
   mount:
-    path: /tmp/rootfs/dev/pts
+    path: "{{ rootfs_dir }}/dev/pts"
     src: /dev/pts
     opts: bind
     fstype: devpts

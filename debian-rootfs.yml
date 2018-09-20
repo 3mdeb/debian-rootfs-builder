@@ -9,7 +9,7 @@
     - { role: 'chroot_mount', tags: 'chroot_mount' }
 
 #TODO: make variables visible in all roles
-- hosts: /tmp/rootfs
+- hosts: /home/debian/rootfs
   connection: chroot
   roles:
     - { role: 'common', tags: 'common' }
@@ -42,7 +42,7 @@
 
     - name: preserver Xen kernel
       copy:
-        src: /tmp/rootfs/boot/xen-4.8-amd64.gz
+        src: "{{ rootfs_dir }}/boot/xen-4.8-amd64.gz"
         dest: /home/debian/scripts/xen-4.8-amd64.gz
 
     - name: unarchive Xen kernel
