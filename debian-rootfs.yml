@@ -24,8 +24,8 @@
 - hosts: localhost
   connection: local
   roles:
-    - chroot_umount
-    - common
+    - { role: 'chroot_umount', tags: 'chroot_umount' }
+    - { role: 'common', tags: 'common' }
   tasks:
   # for some reason archive return error, so we use tar directly An exception
   # occurred during task execution. To see the full traceback, use -vvv. The
